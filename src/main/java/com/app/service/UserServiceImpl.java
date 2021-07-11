@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = new UserEntity();
 		BeanUtils.copyProperties(userRegRequest, user);
 		user.setAccStatus(AppConstants.LOCKED);
-		user.setPwd(PwdUtils.generateRandomPwd());
+		user.setPwd(PwdUtils.encode(PwdUtils.generateRandomPwd()));
 		UserEntity savedEntity = userRepo.save(user);
 		
 		if(savedEntity.getUserId() != null) {
@@ -84,7 +84,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String checkLogin(UserLoginRequest userLoginRequest) {
-		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), userLoginRequest.getPwd());
+		String encodePwd = PwdUtils.encode(userLoginRequest.getPwd());
+		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), encodePwd);
 		if (user != null) {
 			String accStatus = user.getAccStatus();
 			if (AppConstants.LOCKED.equals(accStatus)) {
