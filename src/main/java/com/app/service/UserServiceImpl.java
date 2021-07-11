@@ -69,10 +69,10 @@ public class UserServiceImpl implements UserService {
 		user.setAccStatus(AppConstants.LOCKED);
 		user.setPwd(PwdUtils.encode(PwdUtils.generateRandomPwd()));
 		UserEntity savedEntity = userRepo.save(user);
-		
-		if(savedEntity.getUserId() != null) {
+
+		if (savedEntity.getUserId() != null) {
 			String mailBody = EmailUtils.readFile(AppConstants.USER_REG_BODY_FILE);
-			mailBody = mailBody.replace(AppConstants.FNAME,savedEntity.getFirstName());
+			mailBody = mailBody.replace(AppConstants.FNAME, savedEntity.getFirstName());
 			mailBody = mailBody.replace(AppConstants.LNAME, savedEntity.getLastName());
 			mailBody = mailBody.replace(AppConstants.TEMP_PWD, savedEntity.getPwd());
 			mailBody = mailBody.replace(AppConstants.EMAIL, savedEntity.getEmail());
@@ -100,22 +100,29 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean unlockUser(UserUnlockRequest userUnlockRequest) {
-		// TODO Auto-generated method stub
+		String encodePwd = PwdUtils.encode(userUnlockRequest.getTempPwd());
+		UserEntity user = userRepo.findByEmailAndPwd(userUnlockRequest.getEmail(), encodePwd);
+		if (user != null) {
+			user.setAccStatus(AppConstants.UNLOCKED);
+			user.setPwd(PwdUtils.encode(userUnlockRequest.getNewPwd()));
+			userRepo.save(user);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean forgetPwd(String email) {
 		UserEntity user = userRepo.findByEmail(email);
-		if(user != null) {
-			user.setPwd(email);
-			String mailBody = EmailUtils.readFile(AppConstants.USER_REG_BODY_FILE);
-			mailBody = mailBody.replace(AppConstants.FNAME,user.getFirstName());
+		if (user != null) {
+			user.setPwd(PwdUtils.encode(PwdUtils.generateRandomPwd()));
+			String mailBody = EmailUtils.readFile(AppConstants.USER_FORGET_BODY_FILE);
+			mailBody = mailBody.replace(AppConstants.FNAME, user.getFirstName());
 			mailBody = mailBody.replace(AppConstants.LNAME, user.getLastName());
 			mailBody = mailBody.replace(AppConstants.TEMP_PWD, user.getPwd());
 			mailBody = mailBody.replace(AppConstants.EMAIL, user.getEmail());
 
-			EmailUtils.sendEmail(user.getEmail(), AppConstants.USER_REG_SUBJECT, mailBody);
+			EmailUtils.sendEmail(user.getEmail(), AppConstants.USER_FORGET_SUBJECT, mailBody);
 		}
 		return false;
 	}
