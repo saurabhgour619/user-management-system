@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.constants.AppConstants;
 import com.app.dto.UserRegRequest;
 import com.app.service.UserService;
 
@@ -41,6 +42,6 @@ public class UserRegController {
 	@PostMapping("/users")
 	public String saveUser(@RequestBody UserRegRequest userRegRequest) {
 		boolean savedUser = userService.saveUser(userRegRequest);
-		return savedUser ? "User saved successfully" : "User not saved"
-;	}
+		return savedUser ? AppConstants.USER_SAVED : AppConstants.USER_NOT_SAVED;
+	}
 }
