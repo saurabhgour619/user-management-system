@@ -20,6 +20,7 @@ import com.app.repository.CityRepo;
 import com.app.repository.CountryRepo;
 import com.app.repository.StateRepo;
 import com.app.repository.UserRepo;
+import com.app.utils.EmailUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -67,6 +68,16 @@ public class UserServiceImpl implements UserService {
 		user.setAccStatus(AppConstants.LOCKED);
 		user.setPwd(generateRandomPwd());
 		UserEntity savedEntity = userRepo.save(user);
+		
+		if(savedEntity.getUserId() != null) {
+			String mailBody = EmailUtils.readFile(AppConstants.USER_REG_BODY_FILE);
+			mailBody = mailBody.replace(AppConstants.FNAME,savedEntity.getFirstName());
+			mailBody = mailBody.replace(AppConstants.LNAME, savedEntity.getLastName());
+			mailBody = mailBody.replace(AppConstants.TEMP_PWD, savedEntity.getPwd());
+			mailBody = mailBody.replace(AppConstants.EMAIL, savedEntity.getEmail());
+
+			EmailUtils.sendEmail(savedEntity.getEmail(), AppConstants.USER_REG_SUBJECT, mailBody);
+		}
 		return savedEntity.getUserId() != null;
 	}
 
