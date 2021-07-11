@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.constants.AppConstants;
-import com.app.dto.UserRequest;
+import com.app.dto.UserLoginRequest;
+import com.app.dto.UserRegRequest;
 import com.app.entity.CityEntity;
 import com.app.entity.CountryEntity;
 import com.app.entity.StateEntity;
@@ -60,9 +61,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean saveUser(UserRequest userRequest) {
+	public boolean saveUser(UserRegRequest userRegRequest) {
 		UserEntity user = new UserEntity();
-		BeanUtils.copyProperties(userRequest, user);
+		BeanUtils.copyProperties(userRegRequest, user);
 		user.setAccStatus(AppConstants.LOCKED);
 		user.setPwd(generateRandomPwd());
 		UserEntity savedEntity = userRepo.save(user);
@@ -76,5 +77,11 @@ public class UserServiceImpl implements UserService {
 			sb.append(AppConstants.RANDOM_CHARS.charAt(random.nextInt(AppConstants.RANDOM_CHARS.length())));
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public boolean checkLogin(UserLoginRequest userLoginRequest) {
+		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), userLoginRequest.getPwd());
+		return user != null;
 	}
 }

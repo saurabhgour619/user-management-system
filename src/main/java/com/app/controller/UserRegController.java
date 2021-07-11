@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.UserRequest;
+import com.app.dto.UserRegRequest;
 import com.app.service.UserService;
 
 @RestController
@@ -38,8 +38,9 @@ public class UserRegController {
 		return userService.isEmailExists(email);
 	}
 
-	@PostMapping("/saveUser")
-	public boolean saveUser(@RequestBody UserRequest userRequest) {
-		return userService.saveUser(userRequest);
-	}
+	@PostMapping("/users")
+	public String saveUser(@RequestBody UserRegRequest userRegRequest) {
+		boolean savedUser = userService.saveUser(userRegRequest);
+		return savedUser ? "User saved successfully" : "User not saved"
+;	}
 }

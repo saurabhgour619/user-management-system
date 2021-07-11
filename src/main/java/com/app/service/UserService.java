@@ -2,7 +2,8 @@ package com.app.service;
 
 import java.util.Map;
 
-import com.app.dto.UserRequest;
+import com.app.dto.UserLoginRequest;
+import com.app.dto.UserRegRequest;
 
 public interface UserService {
 
@@ -14,5 +15,7 @@ public interface UserService {
 	
 	public boolean isEmailExists(String email);
 
-	public boolean saveUser(UserRequest userRequest);
+	public boolean saveUser(UserRegRequest userRegRequest);
+	
+	public boolean checkLogin(UserLoginRequest userLoginRequest);
 }
