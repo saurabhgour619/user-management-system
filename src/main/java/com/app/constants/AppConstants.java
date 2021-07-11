@@ -26,7 +26,7 @@ public class AppConstants {
 	
 	public static final String LNAME = "{LNAME}";
 	
-	public static final String TEMP_PWD = "{TEMP_PWD}";
+	public static final String TEMP_PWD = "{TEMP-PWD}";
 	
 	public static final String EMAIL = "{EMAIL}";
 
