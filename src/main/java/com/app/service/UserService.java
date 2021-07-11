@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.app.dto.UserLoginRequest;
 import com.app.dto.UserRegRequest;
+import com.app.dto.UserUnlockRequest;
 
 public interface UserService {
 
@@ -18,4 +19,8 @@ public interface UserService {
 	public boolean saveUser(UserRegRequest userRegRequest);
 	
 	public String checkLogin(UserLoginRequest userLoginRequest);
+
+	public boolean unlockUser(UserUnlockRequest userUnlockRequest);
+
+	public boolean forgetPwd(String email);
 }

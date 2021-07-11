@@ -2,7 +2,6 @@ package com.app.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.app.constants.AppConstants;
 import com.app.dto.UserLoginRequest;
 import com.app.dto.UserRegRequest;
+import com.app.dto.UserUnlockRequest;
 import com.app.entity.CityEntity;
 import com.app.entity.CountryEntity;
 import com.app.entity.StateEntity;
@@ -95,5 +95,27 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return AppConstants.INVALID_LOGIN_MSG;
 		}
+	}
+
+	@Override
+	public boolean unlockUser(UserUnlockRequest userUnlockRequest) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean forgetPwd(String email) {
+		UserEntity user = userRepo.findByEmail(email);
+		if(user != null) {
+			user.setPwd(email);
+			String mailBody = EmailUtils.readFile(AppConstants.USER_REG_BODY_FILE);
+			mailBody = mailBody.replace(AppConstants.FNAME,user.getFirstName());
+			mailBody = mailBody.replace(AppConstants.LNAME, user.getLastName());
+			mailBody = mailBody.replace(AppConstants.TEMP_PWD, user.getPwd());
+			mailBody = mailBody.replace(AppConstants.EMAIL, user.getEmail());
+
+			EmailUtils.sendEmail(user.getEmail(), AppConstants.USER_REG_SUBJECT, mailBody);
+		}
+		return false;
 	}
 }

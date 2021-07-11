@@ -32,4 +32,13 @@ public class AppConstants {
 	
 	public static final String ACC_LOCKED_MSG = "Account is locked. Please check your email for unlocking";
 
+	public static final String ACC_UNLOCKED = "Account is unlocked";
+	
+	public static final String INVALID_TEMP_PWD = "Invalid Temporary Password";
+	
+	public static final String MISMATCH_PWD = "New password and confirm password not same";
+	
+	public static final String REGISTERED_EMAIL_ID = "Please enter registered email id";
+	
+	public static final String PASSWORD_RESET = "Password reset successfully. Pleasev check your email.";
 }
