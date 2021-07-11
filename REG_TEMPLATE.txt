@@ -1,6 +1,5 @@
-Hi  {FNAME} {LNAME} :
+Hi {FNAME} {LNAME} :
 <br/>
-
 Welcome to User Management System, Your registration is almost completed.
 Please use below details to unlock your account.<br/>
 <br/>
