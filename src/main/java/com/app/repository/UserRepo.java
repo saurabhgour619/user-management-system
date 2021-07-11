@@ -9,4 +9,6 @@ import com.app.entity.UserEntity;
 public interface UserRepo extends JpaRepository<UserEntity, Serializable> {
 
 	public UserEntity findByEmail(String email);
+	
+	public UserEntity findByEmailAndPwd(String email, String pwd);
 }
