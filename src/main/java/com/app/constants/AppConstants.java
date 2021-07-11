@@ -10,9 +10,9 @@ public class AppConstants {
 
 	public static final Integer PWD_LENGTH = 6;
 	
-	public static final String LOGIN_SUCCESS = "Login Successful";
+	public static final String LOGIN_SUCCESS_MSG = "Login Successful";
 	
-	public static final String INVALID_LOGIN = "Invalid credentials";
+	public static final String INVALID_LOGIN_MSG = "Invalid credentials";
 	
 	public static final String USER_SAVED = "User saved successfully";
 	
@@ -29,5 +29,7 @@ public class AppConstants {
 	public static final String TEMP_PWD = "{TEMP-PWD}";
 	
 	public static final String EMAIL = "{EMAIL}";
+	
+	public static final String ACC_LOCKED_MSG = "Account is locked. Please check your email for unlocking";
 
 }

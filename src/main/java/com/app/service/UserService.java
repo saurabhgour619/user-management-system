@@ -17,5 +17,5 @@ public interface UserService {
 
 	public boolean saveUser(UserRegRequest userRegRequest);
 	
-	public boolean checkLogin(UserLoginRequest userLoginRequest);
+	public String checkLogin(UserLoginRequest userLoginRequest);
 }

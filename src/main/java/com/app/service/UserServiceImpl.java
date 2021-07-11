@@ -21,6 +21,7 @@ import com.app.repository.CountryRepo;
 import com.app.repository.StateRepo;
 import com.app.repository.UserRepo;
 import com.app.utils.EmailUtils;
+import com.app.utils.PwdUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = new UserEntity();
 		BeanUtils.copyProperties(userRegRequest, user);
 		user.setAccStatus(AppConstants.LOCKED);
-		user.setPwd(generateRandomPwd());
+		user.setPwd(PwdUtils.generateRandomPwd());
 		UserEntity savedEntity = userRepo.save(user);
 		
 		if(savedEntity.getUserId() != null) {
@@ -81,18 +82,18 @@ public class UserServiceImpl implements UserService {
 		return savedEntity.getUserId() != null;
 	}
 
-	private String generateRandomPwd() {
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < AppConstants.PWD_LENGTH; i++) {
-			sb.append(AppConstants.RANDOM_CHARS.charAt(random.nextInt(AppConstants.RANDOM_CHARS.length())));
-		}
-		return sb.toString();
-	}
-
 	@Override
-	public boolean checkLogin(UserLoginRequest userLoginRequest) {
+	public String checkLogin(UserLoginRequest userLoginRequest) {
 		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), userLoginRequest.getPwd());
-		return user != null;
+		if (user != null) {
+			String accStatus = user.getAccStatus();
+			if (AppConstants.LOCKED.equals(accStatus)) {
+				return AppConstants.ACC_LOCKED_MSG;
+			} else {
+				return AppConstants.LOGIN_SUCCESS_MSG;
+			}
+		} else {
+			return AppConstants.INVALID_LOGIN_MSG;
+		}
 	}
 }
