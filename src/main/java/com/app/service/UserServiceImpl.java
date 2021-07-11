@@ -84,8 +84,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String checkLogin(UserLoginRequest userLoginRequest) {
-		String encodePwd = PwdUtils.encode(userLoginRequest.getPwd());
-		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), encodePwd);
+		String decodePwd = PwdUtils.decode(userLoginRequest.getPwd());
+		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), decodePwd);
 		if (user != null) {
 			String accStatus = user.getAccStatus();
 			if (AppConstants.LOCKED.equals(accStatus)) {
@@ -100,8 +100,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean unlockUser(UserUnlockRequest userUnlockRequest) {
-		String encodePwd = PwdUtils.encode(userUnlockRequest.getTempPwd());
-		UserEntity user = userRepo.findByEmailAndPwd(userUnlockRequest.getEmail(), encodePwd);
+		UserEntity user = userRepo.findByEmailAndPwd(userUnlockRequest.getEmail(), userUnlockRequest.getTempPwd());
 		if (user != null) {
 			user.setAccStatus(AppConstants.UNLOCKED);
 			user.setPwd(PwdUtils.encode(userUnlockRequest.getNewPwd()));
