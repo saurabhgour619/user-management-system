@@ -6,7 +6,7 @@ Please use below details to reset and unlock your account.<br/>
 Temporary Password : {TEMP-PWD} <br/>
 <br/>
 
-<a href='http://localhost:9090/unlockAcc?email={EMAIL}'>
+<a href='http://localhost:9090/unlock'>
 
 Click Here To Unlock Your Account</a> <br/>
 <br/>

@@ -84,8 +84,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String checkLogin(UserLoginRequest userLoginRequest) {
-		String decodePwd = PwdUtils.decode(userLoginRequest.getPwd());
-		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), decodePwd);
+		String encodedPwd = PwdUtils.encode(userLoginRequest.getPwd());
+		UserEntity user = userRepo.findByEmailAndPwd(userLoginRequest.getEmail(), encodedPwd);
 		if (user != null) {
 			String accStatus = user.getAccStatus();
 			if (AppConstants.LOCKED.equals(accStatus)) {
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 			mailBody = mailBody.replace(AppConstants.TEMP_PWD, user.getPwd());
 			mailBody = mailBody.replace(AppConstants.EMAIL, user.getEmail());
 
-			EmailUtils.sendEmail(user.getEmail(), AppConstants.USER_FORGET_SUBJECT, mailBody);
+			return EmailUtils.sendEmail(user.getEmail(), AppConstants.USER_FORGET_SUBJECT, mailBody);
 		}
 		return false;
 	}

@@ -20,7 +20,7 @@ public class PwdUtils {
 	}
 
 	public static String encode(String input) {
-		return new String(Base64.getEncoder().encode(input.getBytes()));
+		return Base64.getEncoder().encodeToString(input.getBytes());
 	}
 
 	public static String decode(String input) {

@@ -20,7 +20,7 @@ public class UserForgetPwdController {
 		if(isPwdReset) {
 			return AppConstants.PASSWORD_RESET;
 		}
-		return AppConstants.REGISTERED_EMAIL_ID;
+		return AppConstants.NOT_REGISTERED_EMAIL_ID;
 		
 	}
 }

@@ -36,11 +36,11 @@ public class AppConstants {
 
 	public static final String INVALID_TEMP_PWD = "Invalid Temporary Password";
 
-	public static final String MISMATCH_PWD = "New password and confirm password not same";
+	public static final String MISMATCH_PWD = "New password and confirm password not matched";
 
-	public static final String REGISTERED_EMAIL_ID = "Please enter registered email id";
+	public static final String NOT_REGISTERED_EMAIL_ID = "Please enter registered email id";
 
-	public static final String PASSWORD_RESET = "Password reset successfully. Pleasev check your email.";
+	public static final String PASSWORD_RESET = "Password reset successfully. Please check your email.";
 
 	public static final String USER_FORGET_SUBJECT = "Password Reset";
 
